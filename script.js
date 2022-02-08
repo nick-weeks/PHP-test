@@ -38,6 +38,24 @@ $(document).ready(function() {
              )
         });
     });
+
+function addFavourite(e) {
+    console.log(e)
+    $.ajax({
+        type: "POST"
+        url: "test-add.php"
+        data:e
+    }).then(
+        function(response)
+        {
+            console.log(response)
+        },
+        function()
+        {
+            alert('Error')
+        }
+      )
+}
 function buildStuff(data) {
     document.getElementById("hereForNow").innerHtml = ""
     const card = document.createElement('div')
@@ -80,15 +98,16 @@ function buildSearch(data) {
         const im = document.createElement('img')
             im.src = data["tv_shows"][i]["image_thumbnail_path"]
             im.style.height = "3rem"
-            im.style.height = "3rem"
-            im.style.margin = "1%"
+            im.style.margin = "0% 2%"
         const h = document.createElement('i')
-              h.classList.add('fas fa-star')
+              h.setAttribute('class','fas fa-star')
+              h.style.padding = "0% 2%"
+              h.setAttribute('onClick', 'addFavourite(this.id)')
+              h.setAttribute('id',data["tv_shows"][i]["permalink"])
         const nm = document.createElement('span')
-            nm.style.margin = "1%"
             nm.innerHTML = data["tv_shows"][i]["name"]
             nm.style.overflow = "hidden"
-            nm.style.display = "inline-block"
+            nm.style.display = "contents"
             nm.style.whiteSpace = "nowrap"
             nm.style.textOverflow = "ellipsis"
             nm.style.maxWidth = "13ch"
