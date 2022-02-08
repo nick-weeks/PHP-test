@@ -7,7 +7,8 @@ $(document).ready(function() {
              }).then(
                 function(response)
                {
-                   var jsonData = JSON.parse(response);
+                   console.log(response)
+                   var jsonData = JSON.parse([response]);
                    buildStuff(jsonData)
                 },
                 function()
@@ -27,6 +28,7 @@ $(document).ready(function() {
              }).then(
                 function(response)
                {
+
                     var jsonData = JSON.parse(response);
                     buildSearch(jsonData)
 
@@ -42,13 +44,14 @@ $(document).ready(function() {
 function addFavourite(e) {
     console.log(e)
     $.ajax({
-        type: "POST"
-        url: "test-add.php"
-        data:e
+        type: "POST",
+        url: "test-add.php",
+        data:{action:e}
     }).then(
         function(response)
         {
             console.log(response)
+            document.getElementById(e).style.color = "red"
         },
         function()
         {
@@ -81,7 +84,6 @@ function buildStuff(data) {
                       + data.EpisodeAirData
 
                   document.getElementById("hereForNow").appendChild(card)
-                  card.appendChild(h)
                   card.appendChild(h1)
                   card.appendChild(p)
                   card.appendChild(inf)

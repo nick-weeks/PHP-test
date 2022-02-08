@@ -4,6 +4,7 @@ $servername = "localhost";
 $username = "root";
 $password = "test";
 $db = "test";
+$array = array();
 //$link = 'https://www.episodate.com/api/show-details?q=arrow';
 //$link = 'https://www.episodate.com/api/search?q='.$showName.'&page=1';
 $conn = new mysqli($servername, $username, $password, $db);
@@ -22,8 +23,10 @@ $sql = "SELECT * FROM `tvshows`";
 //echo $sql;
   $result = $conn->query($sql);
   while ($row = $result->fetch_assoc()) {
-      echo json_encode($row);
+      array_push($array,json_encode($row));
   }
+
+echo json_encode($array);
 $conn->close();
 ?>
 
