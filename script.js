@@ -54,7 +54,6 @@ function buildStuff(data) {
                   p.classList.add('rounded', 'mx-auto', 'd-block')
                   const inf = document.createElement('div')
                   inf.classList.add('text-center')
-
                   var date = new Date(data.EpisodeAirData)
                   var today = new Date()
                   if(date.getDate() == today.getDate()) {inf.classList.add('text-success'); h1.classList.add('text-success')}
@@ -64,6 +63,7 @@ function buildStuff(data) {
                       + data.EpisodeAirData
 
                   document.getElementById("hereForNow").appendChild(card)
+                  card.appendChild(h)
                   card.appendChild(h1)
                   card.appendChild(p)
                   card.appendChild(inf)
@@ -82,6 +82,8 @@ function buildSearch(data) {
             im.style.height = "3rem"
             im.style.height = "3rem"
             im.style.margin = "1%"
+        const h = document.createElement('i')
+              h.classList.add('fas fa-star')
         const nm = document.createElement('span')
             nm.style.margin = "1%"
             nm.innerHTML = data["tv_shows"][i]["name"]
@@ -91,7 +93,7 @@ function buildSearch(data) {
             nm.style.textOverflow = "ellipsis"
             nm.style.maxWidth = "13ch"
 
-
+         list.appendChild(h)
          list.appendChild(nm)
          list.appendChild(im)
     document.getElementById("searchResults").appendChild(list)
