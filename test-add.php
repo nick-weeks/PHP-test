@@ -5,7 +5,7 @@ $username = "root";
 $password = "test";
 $db = "test";
 $show = $_POST["action"];
-$link = 'https://www.episodate.com/api/show-details?q=dcs-legends-of-tomorrow';//.$show;
+$link = 'https://www.episodate.com/api/show-details?q='.$show;
 //$link = 'https://www.episodate.com/api/search?q='.$showName.'&page=1';
 $conn = new mysqli($servername, $username, $password, $db);
 // Check connection

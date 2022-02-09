@@ -16,15 +16,15 @@ if ($conn->connect_error) {
 //$obj = json_decode($json,true);
 //echo $json;
 
-$sql = "SELECT * FROM `tvshows`";
+$sql = "SELECT *  FROM `tvshows`";
 
 //$sql = "INSERT INTO `tvshows` (`id`, `name`, `permalink`, `thumbnail_path`, `status`, `Season`, `Episode`, `EpisodeName`, `EpisodeAirData`)
        // VALUES ($id, '$name', '$link', '$img', '$status', $season, $episode, '$episodeName', '$airDate')";
 //echo $sql;
   $result = $conn->query($sql);
-  while ($row = $result->fetch_assoc()) {
-      array_push($array,json_encode($row));
-  }
+while($row = mysqli_fetch_assoc($result)) {
+    $array['tvShows'][]= $row;
+}
 
 echo json_encode($array);
 $conn->close();

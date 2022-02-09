@@ -7,9 +7,8 @@ $(document).ready(function() {
              }).then(
                 function(response)
                {
-                   console.log(response)
-                   var jsonData = JSON.parse([response]);
-                   buildStuff(jsonData)
+                       var jsonData = JSON.parse(response);
+                       buildStuff(jsonData)
                 },
                 function()
                 {
@@ -60,35 +59,37 @@ function addFavourite(e) {
       )
 }
 function buildStuff(data) {
-    document.getElementById("hereForNow").innerHtml = ""
+document.getElementById("hereForNow").innerHTML = ""
+for(var i = 0; i < data.tvShows.length; i ++) {
+
     const card = document.createElement('div')
                 card.classList.add('card','col','text-light', 'bg-dark')
                 card.style.fontSize = "0.9rem"
                 const h1 = document.createElement('div')
                 h1.classList.add('text-center','h6')
-                h1.textContent = data.name
+                h1.textContent = data['tvShows'][i]['name']
 
                   const p = document.createElement('img')
-                  p.src = data.thumbnail_path
+                  p.src = data['tvShows'][i]['thumbnail_path']
                   p.style.height = "4rem"
                   p.style.width = "3rem"
                   p.classList.add('rounded', 'mx-auto', 'd-block')
                   const inf = document.createElement('div')
                   inf.classList.add('text-center')
-                  var date = new Date(data.EpisodeAirData)
+                  var date = new Date(data['tvShows'][i]['EpisodeAirData'])
                   var today = new Date()
                   if(date.getDate() == today.getDate()) {inf.classList.add('text-success'); h1.classList.add('text-success')}
                   inf.innerHTML =
-                      "Season: " + data.Season + " Episode: "
-                      + data.Episode + " Airdate: "
-                      + data.EpisodeAirData
+                      "Season: " + data['tvShows'][i]['Season'] + " Episode: "
+                      + data['tvShows'][i]['Episode'] + " Airdate: "
+                      + data['tvShows'][i]['EpisodeAirData']
 
                   document.getElementById("hereForNow").appendChild(card)
                   card.appendChild(h1)
                   card.appendChild(p)
                   card.appendChild(inf)
 }
-
+}
 function buildSearch(data) {
     console.log(data)
     document.getElementById("searchResults").innerHTML = ""
