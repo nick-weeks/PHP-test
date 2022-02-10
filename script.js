@@ -1,6 +1,4 @@
-$(document).ready(function() {
-    $('#getShow').submit(function(e) {
-        e.preventDefault();
+$(document).ready(function(e) {
         $.ajax({
             type:"POST",
              url: 'test-get.php'
@@ -15,7 +13,6 @@ $(document).ready(function() {
                     alert('Error');
                  }
              )
-        });
     });
 $(document).ready(function() {
     $('#searchShow').submit(function(e) {
@@ -27,7 +24,6 @@ $(document).ready(function() {
              }).then(
                 function(response)
                {
-
                     var jsonData = JSON.parse(response);
                     buildSearch(jsonData)
 
@@ -41,16 +37,18 @@ $(document).ready(function() {
     });
 
 function addFavourite(e) {
-    console.log(e)
     $.ajax({
         type: "POST",
         url: "test-add.php",
         data:{action:e}
     }).then(
         function(response)
-        {
-            console.log(response)
-            document.getElementById(e).style.color = "red"
+        {   console.log(response)
+            if(response == "\r\nSuccess\r\n\r\n\r\n") {
+                document.getElementById(e).style.color = "red"
+            } else {
+            alert(response)
+            }
         },
         function()
         {
@@ -59,8 +57,21 @@ function addFavourite(e) {
       )
 }
 function buildStuff(data) {
-document.getElementById("hereForNow").innerHTML = ""
+var rowCount = 0
+var root = ("root" + rowCount)
+document.getElementById("showResults").innerHTML = ""
 for(var i = 0; i < data.tvShows.length; i ++) {
+
+    if (i % 8 == 0) {
+    rowCount +=1
+    root = ("root" + rowCount)
+    const row = document.createElement('div')
+    row.classList.add('row')
+    row.setAttribute('id',root)
+    document.getElementById("showResults").appendChild(row)
+
+    }
+
 
     const card = document.createElement('div')
                 card.classList.add('card','col','text-light', 'bg-dark')
@@ -68,7 +79,7 @@ for(var i = 0; i < data.tvShows.length; i ++) {
                 const h1 = document.createElement('div')
                 h1.classList.add('text-center','h6')
                 h1.textContent = data['tvShows'][i]['name']
-
+                h1.setAttribute('id',data['tvShows'][i]['permalink'])
                   const p = document.createElement('img')
                   p.src = data['tvShows'][i]['thumbnail_path']
                   p.style.height = "4rem"
@@ -76,24 +87,25 @@ for(var i = 0; i < data.tvShows.length; i ++) {
                   p.classList.add('rounded', 'mx-auto', 'd-block')
                   const inf = document.createElement('div')
                   inf.classList.add('text-center')
-                  var date = new Date(data['tvShows'][i]['EpisodeAirData'])
-                  var today = new Date()
-                  if(date.getDate() == today.getDate()) {inf.classList.add('text-success'); h1.classList.add('text-success')}
+                  const date = new Date(data['tvShows'][i]['EpisodeAirData'])
+                  const today = new Date()
+                  if(date == today) {inf.classList.add('text-success'); h1.classList.add('text-success')}
                   inf.innerHTML =
                       "Season: " + data['tvShows'][i]['Season'] + " Episode: "
                       + data['tvShows'][i]['Episode'] + " Airdate: "
                       + data['tvShows'][i]['EpisodeAirData']
-
-                  document.getElementById("hereForNow").appendChild(card)
+                  document.getElementById(root).appendChild(card)
                   card.appendChild(h1)
                   card.appendChild(p)
                   card.appendChild(inf)
+
 }
 }
 function buildSearch(data) {
     console.log(data)
     document.getElementById("searchResults").innerHTML = ""
     for(var i = 0; i < data["tv_shows"].length; i++) {
+
         const list = document.createElement('li')
             list.setAttribute('class','nav-item')
             list.style.margin = "1%"
@@ -114,7 +126,9 @@ function buildSearch(data) {
             nm.style.whiteSpace = "nowrap"
             nm.style.textOverflow = "ellipsis"
             nm.style.maxWidth = "13ch"
-
+        if(document.getElementById(data["tv_shows"][i]["permalink"])) {
+            h.style.color = "red";
+        }
          list.appendChild(h)
          list.appendChild(nm)
          list.appendChild(im)
